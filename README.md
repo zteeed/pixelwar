@@ -41,6 +41,38 @@ g++ sha256.cpp main.cpp -o pixelwar
 
 ### Lancement
 
+On peut lancer `tmux` avec n fenêtres. Voici un exemple avec `n=24`:
+
+`launch.sh`
+```bash
+#!/bin/sh
+
+export LC_ALL=C
+session=$(date "+%S")
+n=24
+
+tmux new-session -s $session -n "Panes x$n" -d
+
+x=1
+while [ $x -lt $n ]; do
+	tmux split-window -t "$session:0.0" -h
+	tmux select-layout -t "$session:0" tiled
+	x=$(( $x + 1 ))
+done
+
+tmux select-pane -t 0
+
+tmux bind-key -n C-l set-window-option synchronize-panes on \\\; send-keys C-u 'clear' C-m \\\; set-window-option synchronize-panes off
+tmux bind-key -n C-p set-window-option synchronize-panes on \\\; send-keys C-u './pixelwar' C-m \\\; set-window-option synchronize-panes off
+tmux bind-key -n C-k kill-window
+
+tmux attach -t $session
+```
+On peut faire `ctrl+p` pour lancer `pixelwar` sur chaque fenêtre.
+
+
+OU
+
 On lance `./pixelwar &` n fois avec n étant le nombre de coeur disponibles pour maximiser les performances. On peut observer le résultat avec:
 
 ```bash
