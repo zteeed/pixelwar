@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 	string startstring = "00000";
 	srand(getpid());
 	while (true) {
-		input_len = 232 + ((rand() % 145));
+		input_len = 20 + ((rand() % 13));
 		string input = generate_random_string(input_len);
 		string output = sha256(input);
 		if (startstring.compare(output.substr(0,5)) == 0) {
