@@ -24,7 +24,7 @@ def get_tab_from_image():
     with open('image', 'wb') as f:
         f.write(r.content)
     all_tab = np.array(Image.open(BytesIO(r.content)))
-    return all_tab[10:50+10, -50-10:-10].tolist()  # top right corner
+    return all_tab[-25-10:-10, 30:30+25].tolist()  # bottom left corner
 
 
 def get_tab_from_custom_image():
@@ -63,8 +63,8 @@ def main():
                 continue  # ignore transparent pixel
             if server_pixel == custom_pixel:
                 continue  # do not update pixel
-            x = 10 + i
-            y = 100 - 50 - 10 + j
+            y = 100 - 25 - 10 + i
+            x = 30 + j
             custom_color = ''.join([hex(i)[2:].zfill(2) for i in custom_pixel])
             proof = proofs[0]
             update_pixel(x, y, custom_color, proof)
